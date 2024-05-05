@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Loyalty Management System</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f3f3f3;
+        }
+
+        h1, h2 {
+            color: #333;
+            text-align: center;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        textarea,
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        #loyaltyInfo {
+            max-width: 400px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #loyaltyInfo p {
+            margin: 10px 0;
+        }
+
+        #loyaltyInfo strong {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Customer Loyalty Management System</h1>
+    
+    <!-- Customer Registration Form -->
+    <h2>Register New Customer</h2>
+    <form id="customerForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+        <label for="phone">Phone:</label>
+        <input type="tel" id="phone" name="phone" required><br>
+        <label for="address">Address:</label>
+        <textarea id="address" name="address" required></textarea><br>
+        <button type="submit">Register</button>
+    </form>
+
+    <!-- Loyalty Tier and Points Display -->
+    <div id="loyaltyInfo">
+        <h2>Loyalty Information</h2>
+        <p><strong>Loyalty Tier:</strong> <span id="loyaltyTier"></span></p>
+        <p><strong>Total Points:</strong> <span id="totalPoints"></span></p>
+    </div>
+
+    <!-- Transaction Recording Form -->
+    <h2>Record Transaction</h2>
+    <form id="transactionForm">
+        <label for="customerId">Customer ID:</label>
+        <input type="text" id="customerId" name="customerId" required><br>
+        <label for="totalAmount">Total Amount:</label>
+        <input type="number" id="totalAmount" name="totalAmount" required><br>
+        <label for="pointsEarned">Points Earned:</label>
+        <input type="number" id="pointsEarned" name="pointsEarned" required><br>
+        <button type="submit">Record Transaction</button>
+    </form>
+
+    <script>
+        // Handle customer registration form submission
+        $('#customerForm').submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '/api/customer/register', // Updated backend endpoint
+                data: $(this).serialize(),
+                success: function(response) {
+                    alert('Customer registered successfully!');
+                    // Reset the form
+                    $('#customerForm')[0].reset();
+                },
+                error: function(xhr, status, error) {
+                    alert('An error occurred while registering the customer.');
+                    console.error(error);
+                }
+            });
+        });
+
+        // Handle transaction recording form submission
+        $('#transactionForm').submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '/api/transaction/record', // Updated backend endpoint
+                data: $(this).serialize(),
+                success: function(response) {
+                    alert('Transaction recorded successfully!');
+                    // Reset the form
+                    $('#transactionForm')[0].reset();
+                },
+                error: function(xhr, status, error) {
+                    alert('An error occurred while recording the transaction.');
+                    console.error(error);
+                }
+            });
+        });
+
+        // Function to fetch loyalty information for a customer
+        function fetchLoyaltyInfo(customerId) {
+            // AJAX call to fetch loyalty info for the given customer ID
+            $.ajax({
+                type: 'GET',
+                url: '/api/customer/loyalty?customerId=' + customerId, // Updated backend endpoint
+                success: function(response) {
+                    // Update loyalty tier and total points on the frontend
+                    $('#loyaltyTier').text(response.loyaltyTier);
+                    $('#totalPoints').text(response.totalPoints);
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        // Example: Fetch loyalty info for customer with ID 123 (replace with actual customer ID)
+        fetchLoyaltyInfo(123);
+    </script>
+</body>
+</html>
