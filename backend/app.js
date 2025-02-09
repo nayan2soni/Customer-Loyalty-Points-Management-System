@@ -4,7 +4,7 @@ const { Sequelize, DataTypes } = require('sequelize');
 const path = require('path');
 require('dotenv').config();
 const mysql = require('mysql');
-const sequelize = require('../config/sequelize.js'); // Assuming this is where you define your Sequelize instance
+const sequelize = require('../config/sequelize.js');
 const customerRoutes = require('./routes/routes');
 
 const app = express();
