@@ -117,12 +117,11 @@
     </form>
 
     <script>
-        // Handle customer registration form submission
         $('#customerForm').submit(function(e) {
             e.preventDefault();
             $.ajax({
                 type: 'POST',
-                url: '/api/customer/register', // Updated backend endpoint
+                url: '/api/customer/register',
                 data: $(this).serialize(),
                 success: function(response) {
                     alert('Customer registered successfully!');
@@ -157,10 +156,9 @@
 
         // Function to fetch loyalty information for a customer
         function fetchLoyaltyInfo(customerId) {
-            // AJAX call to fetch loyalty info for the given customer ID
             $.ajax({
                 type: 'GET',
-                url: '/api/customer/loyalty?customerId=' + customerId, // Updated backend endpoint
+                url: '/api/customer/loyalty?customerId=' + customerId, // Updated backend endpoint ngga
                 success: function(response) {
                     // Update loyalty tier and total points on the frontend
                     $('#loyaltyTier').text(response.loyaltyTier);
