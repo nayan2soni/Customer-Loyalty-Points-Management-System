@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../config/sequelize');
-
+//Customer Model
 const Customer = sequelize.define('Customer', {
   CustomerID: {
     type: DataTypes.INTEGER,
@@ -40,6 +40,7 @@ const Customer = sequelize.define('Customer', {
   },
 });
 
+//Product Model
 const Product = sequelize.define('Product', {
   ProductID: {
     type: DataTypes.INTEGER,
@@ -69,6 +70,7 @@ const Product = sequelize.define('Product', {
   },
 });
 
+//Transaction Model
 const Transaction = sequelize.define('Transaction', {
   TransactionID: {
     type: DataTypes.INTEGER,
